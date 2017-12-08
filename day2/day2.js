@@ -1,4 +1,4 @@
-// const arr = [[5, 1, 9, 5], [7, 5, 3], [2, 4, 6, 8]]
+// const arr = [[5, 9, 2, 8], [9, 4, 7, 3], [3, 8, 6, 5]]
 
 const arr = [[1919,2959,82,507,3219,239,3494,1440,3107,259,3544,683,207,562,276,2963],
 [587,878,229,2465,2575,1367,2017,154,152,157,2420,2480,138,2512,2605,876],
@@ -18,12 +18,28 @@ const arr = [[1919,2959,82,507,3219,239,3494,1440,3107,259,3544,683,207,562,276,
 [1158,2832,697,113,121,397,1508,118,2181,2122,809,2917,134,2824,3154,2791]]
 
 console.log(arr)
-console.log('hello')
 
 const difference = (arr) => {
   const minMax = arr.reduce((mm, item) => ({min: Math.min(item, mm.min), max: Math.max(item, mm.max)}), {min: 1000000, max: 0})
   return minMax.max - minMax.min
 }
 
-const result = arr.reduce((sum, row) => sum + difference(row), 0)
-console.log(result)
+const canDivide = (one, two) => {
+  if (one === two)
+    return false
+  const max = Math.max(one, two)
+  const min = Math.min(one, two)
+
+  return max % min === 0
+}
+
+const divisor = (arr) => {
+  const first = arr.find(item => arr.some(other => canDivide(item, other)))
+
+  const second = arr.find(item => canDivide(first, item))
+
+  return Math.max(first, second) / Math.min(first, second)
+}
+
+const result = arr.reduce((sum, row) => sum + divisor(row), 0)
+console.log('Result is ', result)
